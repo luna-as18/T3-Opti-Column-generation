@@ -89,20 +89,39 @@
     </section>
 
     <!-- Horarios Generados -->
-    <section id="horarios" class="container">
-        <h2>Horarios Generados</h2>
-        <p>Selecciona un horario para visualizar los turnos asignados a lo largo de la semana:</p>
+<section id="horarios" class="container">
+    <h2>Horarios Generados</h2>
+    <p>Selecciona un horario para visualizar los turnos asignados a lo largo de la semana:</p>
 
-        <!-- Lista desplegable para seleccionar el horario -->
-        <div class="table-container">
-            <label for="horario-select">Selecciona un horario:</label>
-            <select id="horario-select">
-                <option value="" disabled selected>Elige un horario...</option>
-            </select>
+    <!-- Lista desplegable para seleccionar el horario -->
+    <div class="table-container" style="text-align: center;">
+        <label for="horario-select" style="font-size: 18px;">Selecciona un horario:</label>
+        <select id="horario-select" style="padding: 10px; font-size: 16px; margin: 20px 0; border-radius: 8px; border: 1px solid #ccc;">
+            <option value="" disabled selected>Elige un horario...</option>
+        </select>
 
-            <div id="tables-container"></div>
+        <div id="tables-container" style="overflow-x: auto;">
+            <table id="horario-table" style="width: 100%; border-collapse: collapse; margin-top: 20px;">
+                <thead>
+                    <tr style="background-color: #f2f2f2;">
+                        <th style="padding: 10px; border: 1px solid #ddd;">Franja horaria</th>
+                        <th style="padding: 10px; border: 1px solid #ddd;">Lunes</th>
+                        <th style="padding: 10px; border: 1px solid #ddd;">Martes</th>
+                        <th style="padding: 10px; border: 1px solid #ddd;">Miércoles</th>
+                        <th style="padding: 10px; border: 1px solid #ddd;">Jueves</th>
+                        <th style="padding: 10px; border: 1px solid #ddd;">Viernes</th>
+                        <th style="padding: 10px; border: 1px solid #ddd;">Sábado</th>
+                        <th style="padding: 10px; border: 1px solid #ddd;">Domingo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Las filas generadas por cada horario irán aquí -->
+                </tbody>
+            </table>
         </div>
-    </section>
+    </div>
+</section>
+
     <!-- Resultados Generales -->
     <section id="resultados" class="container">
         <h2>Resultados Generales</h2>
