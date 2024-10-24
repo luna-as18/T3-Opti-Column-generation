@@ -80,11 +80,15 @@
             </ul>
         </nav>
     </header>
-
     <!-- Descripción del Problema -->
-    <section id="descripcion" class="container">
-        <h2>Descripción del Problema</h2>
-        <img src="https://raw.githubusercontent.com/luna-as18/T3-Opti-Column-generation/2039e4fe4104dd615d1b8a3bbd7024cccc8f3348/images/SchedulinDescrption.jpeg" alt="Descripción del problema de asignación de turnos" style="width: 50%; height: auto;">
+    <section id="descripcion" class="container" style="padding: 0; margin-bottom: 20px;">
+        <div style="position: relative; width: 100%;">
+            <img src="https://raw.githubusercontent.com/luna-as18/T3-Opti-Column-generation/2039e4fe4104dd615d1b8a3bbd7024cccc8f3348/images/SchedulinDescrption.jpeg" 
+                alt="Descripción del problema de asignación de turnos" style="width: 100%; height: auto;">
+            <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: white; font-size: 36px; text-align: center;">
+                Caviana TACA - Descripción del Problema
+            </div>
+        </div>
         <p>El problema planteado consiste en la asignación óptima de turnos para un conjunto de equipos que deben cubrir ciertos requerimientos de personal a lo largo de una semana, dividido en días y franjas horarias. El objetivo es minimizar los costos asociados a la asignación de estos equipos, cumpliendo con restricciones operativas tales como el número mínimo de equipos requeridos en cada franja y día, así como reglas de trabajo que aseguran que los equipos no trabajen más de ciertos días consecutivos ni más de un día durante el fin de semana.</p>
     </section>
 
@@ -180,7 +184,7 @@ const franjasHorarias = [
     "10 p.m. - 00 a.m."
 ];
 
-// Función para generar la tabla de cada horario
+/// Función para generar la tabla de cada horario
 function generarTablaHorario(horarioData, nombreHorario) {
     const dias = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
     const container = document.getElementById('tables-container');
@@ -251,11 +255,11 @@ function generarTablaHorario(horarioData, nombreHorario) {
 
 // Función para mostrar la tabla seleccionada
 function mostrarTablaHorario(nombreHorario) {
-    // Ocultar todas las tablas
+    // Borrar las tablas previas
     const tablas = document.querySelectorAll('.hidden');
     tablas.forEach(tabla => tabla.style.display = 'none');
 
-    // Mostrar solo la tabla seleccionada
+    // Mostrar la tabla seleccionada
     const tablaSeleccionada = document.getElementById(`table-${nombreHorario}`);
     if (tablaSeleccionada) {
         tablaSeleccionada.style.display = 'block';
@@ -274,18 +278,16 @@ fetch(url)
             option.value = key;
             option.textContent = key;
             select.appendChild(option);
-
-            // Generar cada tabla pero mantenerlas ocultas por defecto
-            generarTablaHorario(data[key], key);
         }
 
         // Detectar cuando se selecciona un horario
         select.addEventListener('change', function() {
             const horarioSeleccionado = this.value;
-            mostrarTablaHorario(horarioSeleccionado);
+            generarTablaHorario(data[horarioSeleccionado], horarioSeleccionado);
         });
     })
     .catch(error => console.error('Error al obtener los datos:', error));
+
     </script>
 
 </body>
