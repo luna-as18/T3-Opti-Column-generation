@@ -23,50 +23,72 @@
 
     <h1>Horarios Generados</h1>
 
-    <table>
-        <thead>
-            <tr>
-                <th>Franja horaria</th>
-                <th>Lunes</th>
-                <th>Martes</th>
-                <th>Miércoles</th>
-                <th>Jueves</th>
-                <th>Viernes</th>
-                <th>Sábado</th>
-                <th>Domingo</th>
-            </tr>
-        </thead>
-        <tbody id="horarios-table">
-        </tbody>
-    </table>
+    <div id="tables-container"></div>
 
     <script>
         // Reemplaza esta URL con el enlace que te proporcione los datos JSON
         const url = 'https://raw.githubusercontent.com/luna-as18/T3-Opti-Column-generation/main/columnas_finales_87.json';
 
+        // Función para generar la tabla de cada horario
+        function generarTablaHorario(horarioData, nombreHorario) {
+            const dias = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
+            const table = document.createElement('table');
+            const thead = document.createElement('thead');
+            const tbody = document.createElement('tbody');
+            const container = document.getElementById('tables-container');
+
+            // Crear encabezado
+            const headerRow = document.createElement('tr');
+            const thHorario = document.createElement('th');
+            thHorario.textContent = 'Franja horaria';
+            headerRow.appendChild(thHorario);
+
+            dias.forEach(dia => {
+                const thDia = document.createElement('th');
+                thDia.textContent = dia;
+                headerRow.appendChild(thDia);
+            });
+
+            thead.appendChild(headerRow);
+
+            // Crear cuerpo de la tabla
+            const numFranjas = 12;  // Asumiendo que hay 12 franjas horarias por día
+            for (let i = 0; i < numFranjas; i++) {
+                const row = document.createElement('tr');
+                const horarioCell = document.createElement('td');
+                horarioCell.textContent = `Franja ${i + 1}`;
+                row.appendChild(horarioCell);
+
+                for (let j = 0; j < 7; j++) {  // 7 días a la semana
+                    const dayCell = document.createElement('td');
+                    const index = i + j * numFranjas;
+                    dayCell.textContent = horarioData[index];
+
+                    if (horarioData[index] === 1.0) {
+                        dayCell.classList.add('active');
+                    }
+                    row.appendChild(dayCell);
+                }
+
+                tbody.appendChild(row);
+            }
+
+            table.appendChild(thead);
+            table.appendChild(tbody);
+
+            // Crear título para cada tabla
+            const title = document.createElement('h2');
+            title.textContent = `Horario: ${nombreHorario}`;
+            container.appendChild(title);
+            container.appendChild(table);
+        }
+
         // Hacer fetch para obtener los datos
         fetch(url)
             .then(response => response.json())
             .then(data => {
-                const horariosTable = document.getElementById('horarios-table');
-                
-                // Suponiendo que la estructura es similar a la del ejemplo anterior
                 for (let key in data) {
-                    const row = document.createElement('tr');
-                    const horarioCell = document.createElement('td');
-                    horarioCell.textContent = key;
-                    row.appendChild(horarioCell);
-
-                    data[key].forEach((value, index) => {
-                        const dayCell = document.createElement('td');
-                        dayCell.textContent = value;
-                        if (value === 1.0) {
-                            dayCell.classList.add('active');
-                        }
-                        row.appendChild(dayCell);
-                    });
-
-                    horariosTable.appendChild(row);
+                    generarTablaHorario(data[key], key);
                 }
             })
             .catch(error => console.error('Error al obtener los datos:', error));
