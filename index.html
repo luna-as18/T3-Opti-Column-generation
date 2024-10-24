@@ -25,36 +25,23 @@
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
-        .dropdown {
+        .image-text-container {
+            display: flex;
+            align-items: center;
             margin: 20px 0;
-            text-align: center;
         }
-        select {
-            padding: 10px;
-            font-size: 16px;
-            border-radius: 4px;
-            border: 1px solid #ccc;
-            background-color: #fff;
+        .image-text-container img {
+            max-width: 40%;
+            height: auto;
+            margin-right: 20px;
+        }
+        .image-text-container-left {
+            flex-direction: row-reverse;
+        }
+        .image-text-container h3 {
+            margin: 0;
+            padding: 0;
             color: #333;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-        }
-        th, td {
-            border: 1px solid #ccc;
-            padding: 10px;
-            text-align: center;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-        .active {
-            background-color: lightblue;
-        }
-        .hidden {
-            display: none;
         }
         /* Estilo para la navegación */
         nav ul {
@@ -97,34 +84,42 @@
     <!-- Descripción del Problema -->
     <section id="descripcion" class="container">
         <h2>Descripción del Problema</h2>
-        <img src="https://raw.githubusercontent.com/luna-as18/T3-Opti-Column-generation/2039e4fe4104dd615d1b8a3bbd7024cccc8f3348/images/SchedulinDescrption.jpeg" alt="Descripción del problema de asignación de turnos">
+        <img src="https://raw.githubusercontent.com/luna-as18/T3-Opti-Column-generation/2039e4fe4104dd615d1b8a3bbd7024cccc8f3348/images/SchedulinDescrption.jpeg" alt="Descripción del problema de asignación de turnos" style="width: 50%; height: auto;">
         <p>El problema planteado consiste en la asignación óptima de turnos para un conjunto de equipos que deben cubrir ciertos requerimientos de personal a lo largo de una semana, dividido en días y franjas horarias. El objetivo es minimizar los costos asociados a la asignación de estos equipos, cumpliendo con restricciones operativas tales como el número mínimo de equipos requeridos en cada franja y día, así como reglas de trabajo que aseguran que los equipos no trabajen más de ciertos días consecutivos ni más de un día durante el fin de semana.</p>
     </section>
 
     <!-- Resultados Generales -->
-<section id="resultados" class="container">
-    <h2>Resultados Generales</h2>
-    <p>En esta sección se presentan los resultados globales del análisis de asignación de turnos. A continuación, se muestra la distribución de equipos asignados y su relación con los costos asociados.</p>
+    <section id="resultados" class="container">
+        <h2>Resultados Generales</h2>
+        <p>En esta sección se presentan los resultados globales del análisis de asignación de turnos. A continuación, se muestra la distribución de equipos asignados y su relación con los costos asociados.</p>
 
-    <!-- Gráfico de dispersión de Costo vs Equipos -->
-    <div class="image-container">
-        <h3>Relación entre Costo y Equipos por Horario</h3>
-        <img src="https://raw.githubusercontent.com/luna-as18/T3-Opti-Column-generation/main/images/relacionCostosHorario.png" alt="Relación Costo y Equipos">
-    </div>
+        <!-- Gráfico de dispersión de Costo vs Equipos (Imagen derecha) -->
+        <div class="image-text-container">
+            <img src="https://raw.githubusercontent.com/luna-as18/T3-Opti-Column-generation/main/images/relacionCostosHorario.png" alt="Relación Costo y Equipos">
+            <div>
+                <h3>Relación entre Costo y Equipos por Horario</h3>
+                <p>Esta imagen muestra la relación entre los costos y la cantidad de equipos asignados. Podemos observar que a medida que el costo aumenta, la cantidad de equipos disminuye de manera significativa. Esto es indicativo de que los horarios más caros tienden a involucrar menos equipos, lo que sugiere que estos costos más elevados están relacionados con franjas horarias más exigentes o demandantes en términos de recursos.</p>
+            </div>
+        </div>
 
-    <!-- Gráfico de distribución por día -->
-    <div class="image-container">
-        <h3>Distribución de Estados por Día y Franja</h3>
-        <img src="https://raw.githubusercontent.com/luna-as18/T3-Opti-Column-generation/main/images/distriDia.png" alt="Distribución por Día y Franja">
-    </div>
+        <!-- Gráfico de distribución por día (Imagen izquierda) -->
+        <div class="image-text-container image-text-container-left">
+            <img src="https://raw.githubusercontent.com/luna-as18/T3-Opti-Column-generation/main/images/distriDia.png" alt="Distribución por Día y Franja">
+            <div>
+                <h3>Distribución de Estados por Día y Franja</h3>
+                <p>Este gráfico de calor muestra la distribución de estados por día y franja horaria. Los colores más intensos indican mayor actividad, mientras que los colores más suaves representan menor actividad. Se puede observar que las franjas de la mañana tienden a tener más actividad que las franjas nocturnas, especialmente los martes y los fines de semana.</p>
+            </div>
+        </div>
 
-    <!-- Gráfico de actividad por día -->
-    <div class="image-container">
-        <h3>Actividad por Día de la Semana</h3>
-        <img src="https://raw.githubusercontent.com/luna-as18/T3-Opti-Column-generation/main/images/ActiDiaSem.png" alt="Actividad por Día">
-    </div>
-</section>
-
+        <!-- Gráfico de actividad por día (Imagen derecha) -->
+        <div class="image-text-container">
+            <img src="https://raw.githubusercontent.com/luna-as18/T3-Opti-Column-generation/main/images/ActiDiaSem.png" alt="Actividad por Día">
+            <div>
+                <h3>Actividad por Día de la Semana</h3>
+                <p>En este gráfico de barras podemos ver la actividad total acumulada por día de la semana. El martes es el día con más actividad, seguido de cerca por lunes y viernes. Los días con menos actividad son el sábado y miércoles, lo cual puede estar relacionado con las restricciones laborales impuestas.</p>
+            </div>
+        </div>
+    </section>
 
     <!-- Análisis de Costos -->
     <section id="costos" class="container">
