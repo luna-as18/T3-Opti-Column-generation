@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Horarios Generados</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 10px;
+            text-align: center;
+        }
+        .active {
+            background-color: lightblue;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Horarios Generados</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Franja horaria</th>
+                <th>Lunes</th>
+                <th>Martes</th>
+                <th>Miércoles</th>
+                <th>Jueves</th>
+                <th>Viernes</th>
+                <th>Sábado</th>
+                <th>Domingo</th>
+            </tr>
+        </thead>
+        <tbody id="horarios-table">
+        </tbody>
+    </table>
+
+    <script>
+        // JSON que has mostrado como ejemplo
+        const jsonData = {
+            "h_87": [1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, ...] // Los 84 valores
+        };
+
+        const franjasHorarias = [
+            '00 a.m. - 2 a.m.', '2 a.m. - 4 a.m.', '4 a.m. - 6 a.m.',
+            '6 a.m. - 8 a.m.', '8 a.m. - 10 a.m.', '10 a.m. - 12 p.m.',
+            '12 p.m. - 2 p.m.', '2 p.m. - 4 p.m.', '4 p.m. - 6 p.m.',
+            '6 p.m. - 8 p.m.', '8 p.m. - 10 p.m.', '10 p.m. - 12 a.m.'
+        ];
+
+        // Insertar datos en la tabla
+        const tableBody = document.getElementById('horarios-table');
+        let index = 0;
+        franjasHorarias.forEach(franja => {
+            const row = document.createElement('tr');
+            const timeSlotCell = document.createElement('td');
+            timeSlotCell.textContent = franja;
+            row.appendChild(timeSlotCell);
+            
+            // Iterar por cada día de la semana
+            for (let i = 0; i < 7; i++) {
+                const cell = document.createElement('td');
+                if (jsonData['h_87'][index] === 1) {
+                    cell.classList.add('active');
+                }
+                row.appendChild(cell);
+                index++;
+            }
+            tableBody.appendChild(row);
+        });
+    </script>
+</body>
+</html>
