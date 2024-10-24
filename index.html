@@ -3,15 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Horarios Generados</title>
+    <title>Asignación de Turnos - Caviana TACA</title>
+    <link rel="stylesheet" href="styles.css">
     <style>
+        /* Estilos básicos */
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f4f4;
             margin: 0;
             padding: 20px;
         }
-        h1 {
+        h1, h2 {
             text-align: center;
             color: #333;
         }
@@ -54,13 +56,71 @@
         .hidden {
             display: none;
         }
+        /* Estilo para la navegación */
+        nav ul {
+            display: flex;
+            justify-content: center;
+            list-style-type: none;
+            padding: 0;
+            background-color: #333;
+        }
+        nav ul li {
+            margin: 0 15px;
+        }
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            padding: 14px 20px;
+            display: block;
+        }
+        nav ul li a:hover {
+            background-color: #575757;
+        }
     </style>
 </head>
 <body>
 
-    <h1>Horarios Generados</h1>
+    <!-- Encabezado -->
+    <header>
+        <h1>Solución al Problema de Asignación de Turnos - Caviana TACA</h1>
+        <nav>
+            <ul>
+                <li><a href="#descripcion">Descripción del Problema</a></li>
+                <li><a href="#resultados">Resultados Generales</a></li>
+                <li><a href="#costos">Análisis de Costos</a></li>
+                <li><a href="#horarios">Horarios Generados</a></li>
+                <li><a href="#conclusiones">Conclusiones</a></li>
+            </ul>
+        </nav>
+    </header>
 
-    <div class="container">
+    <!-- Descripción del Problema -->
+    <section id="descripcion" class="container">
+        <h2>Descripción del Problema</h2>
+        <p>Aquí puedes incluir la explicación del problema de asignación de turnos...</p>
+    </section>
+
+    <!-- Resultados Generales -->
+    <section id="resultados" class="container">
+        <h2>Resultados Generales</h2>
+        <p>Aquí puedes incluir el resumen de los resultados generales obtenidos, incluyendo costos totales y asignación de equipos...</p>
+    </section>
+
+    <!-- Análisis de Costos -->
+    <section id="costos" class="container">
+        <h2>Análisis de Costos</h2>
+        <p>Aquí se mostrarán los costos asociados a cada horario generado...</p>
+        <!-- Tabla de costos -->
+        <table>
+            <!-- Contenido de la tabla -->
+        </table>
+    </section>
+
+    <!-- Horarios Generados -->
+    <section id="horarios" class="container">
+        <h2>Horarios Generados</h2>
+        <p>Selecciona un horario para visualizar los turnos asignados a lo largo de la semana:</p>
+
         <!-- Lista desplegable para seleccionar el horario -->
         <div class="dropdown">
             <label for="horario-select">Selecciona un horario:</label>
@@ -70,8 +130,15 @@
         </div>
 
         <div id="tables-container"></div>
-    </div>
+    </section>
 
+    <!-- Conclusiones -->
+    <section id="conclusiones" class="container">
+        <h2>Conclusiones</h2>
+        <p>Aquí puedes incluir las conclusiones obtenidas tras analizar los resultados...</p>
+    </section>
+
+    <!-- Scripts -->
     <script>
         // URL del archivo JSON
         const url = 'https://raw.githubusercontent.com/luna-as18/T3-Opti-Column-generation/main/columnas_finales_87.json';
