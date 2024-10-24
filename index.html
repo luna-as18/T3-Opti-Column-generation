@@ -17,11 +17,38 @@
         .active {
             background-color: lightblue;
         }
+        .accordion {
+            background-color: #eee;
+            color: #444;
+            cursor: pointer;
+            padding: 10px;
+            width: 100%;
+            border: none;
+            text-align: left;
+            outline: none;
+            font-size: 15px;
+            transition: 0.4s;
+        }
+        .accordion:after {
+            content: '\002B';  /* Unicode character for "+" */
+            color: #777;
+            font-weight: bold;
+            float: right;
+        }
+        .accordion.active:after {
+            content: "\2212";  /* Unicode character for "-" */
+        }
+        .panel {
+            padding: 0 18px;
+            background-color: white;
+            display: none;
+            overflow: hidden;
+        }
     </style>
 </head>
 <body>
 
-    <h1>Horarios Generados wii</h1>
+    <h1>Horarios Generados</h1>
 
     <div id="tables-container"></div>
 
@@ -92,11 +119,26 @@
             table.appendChild(thead);
             table.appendChild(tbody);
 
-            // Crear título para cada tabla
-            const title = document.createElement('h2');
-            title.textContent = `Horario: ${nombreHorario}`;
-            container.appendChild(title);
-            container.appendChild(table);
+            // Crear título para cada tabla con acordeón
+            const button = document.createElement('button');
+            button.className = 'accordion';
+            button.textContent = `Horario: ${nombreHorario}`;
+            container.appendChild(button);
+
+            const panel = document.createElement('div');
+            panel.className = 'panel';
+            panel.appendChild(table);
+            container.appendChild(panel);
+
+            button.addEventListener('click', function() {
+                this.classList.toggle('active');
+                const panel = this.nextElementSibling;
+                if (panel.style.display === "block") {
+                    panel.style.display = "none";
+                } else {
+                    panel.style.display = "block";
+                }
+            });
         }
 
         // Hacer fetch para obtener los datos
