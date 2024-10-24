@@ -88,7 +88,7 @@
         <p>El problema planteado consiste en la asignación óptima de turnos para un conjunto de equipos que deben cubrir ciertos requerimientos de personal a lo largo de una semana, dividido en días y franjas horarias. El objetivo es minimizar los costos asociados a la asignación de estos equipos, cumpliendo con restricciones operativas tales como el número mínimo de equipos requeridos en cada franja y día, así como reglas de trabajo que aseguran que los equipos no trabajen más de ciertos días consecutivos ni más de un día durante el fin de semana.</p>
     </section>
 
-    <!-- Horarios Generados -->
+ <!-- Horarios Generados -->
 <section id="horarios" class="container">
     <h2>Horarios Generados</h2>
     <p>Selecciona un horario para visualizar los turnos asignados a lo largo de la semana:</p>
@@ -100,24 +100,8 @@
             <option value="" disabled selected>Elige un horario...</option>
         </select>
 
-        <div id="tables-container" style="overflow-x: auto;">
-            <table id="horario-table" style="width: 100%; border-collapse: collapse; margin-top: 20px;">
-                <thead>
-                    <tr style="background-color: #f2f2f2;">
-                        <th style="padding: 10px; border: 1px solid #ddd;">Franja horaria</th>
-                        <th style="padding: 10px; border: 1px solid #ddd;">Lunes</th>
-                        <th style="padding: 10px; border: 1px solid #ddd;">Martes</th>
-                        <th style="padding: 10px; border: 1px solid #ddd;">Miércoles</th>
-                        <th style="padding: 10px; border: 1px solid #ddd;">Jueves</th>
-                        <th style="padding: 10px; border: 1px solid #ddd;">Viernes</th>
-                        <th style="padding: 10px; border: 1px solid #ddd;">Sábado</th>
-                        <th style="padding: 10px; border: 1px solid #ddd;">Domingo</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Las filas generadas por cada horario irán aquí -->
-                </tbody>
-            </table>
+        <div id="tables-container" style="overflow-x: auto; margin-top: 20px;">
+            <!-- Aquí se generará la tabla de forma dinámica -->
         </div>
     </div>
 </section>
@@ -177,117 +161,131 @@
 
     <!-- Scripts -->
     <script>
-        // URL del archivo JSON
-        const url = 'https://raw.githubusercontent.com/luna-as18/T3-Opti-Column-generation/main/columnas_finales_87.json';
+       // URL del archivo JSON
+const url = 'https://raw.githubusercontent.com/luna-as18/T3-Opti-Column-generation/main/columnas_finales_87.json';
 
-        // Las franjas horarias que corresponden a cada intervalo
-        const franjasHorarias = [
-            "00 a.m. - 2 a.m.",
-            "2 a.m. - 4 a.m.",
-            "4 a.m. - 6 a.m.",
-            "6 a.m. - 8 a.m.",
-            "8 a.m. - 10 a.m.",
-            "10 a.m. - 12 m.",
-            "12 m. - 2 p.m.",
-            "2 p.m. - 4 p.m.",
-            "4 p.m. - 6 p.m.",
-            "6 p.m. - 8 p.m.",
-            "8 p.m. - 10 p.m.",
-            "10 p.m. - 00 a.m."
-        ];
+// Las franjas horarias que corresponden a cada intervalo
+const franjasHorarias = [
+    "00 a.m. - 2 a.m.",
+    "2 a.m. - 4 a.m.",
+    "4 a.m. - 6 a.m.",
+    "6 a.m. - 8 a.m.",
+    "8 a.m. - 10 a.m.",
+    "10 a.m. - 12 m.",
+    "12 m. - 2 p.m.",
+    "2 p.m. - 4 p.m.",
+    "4 p.m. - 6 p.m.",
+    "6 p.m. - 8 p.m.",
+    "8 p.m. - 10 p.m.",
+    "10 p.m. - 00 a.m."
+];
 
-        // Función para generar la tabla de cada horario
-        function generarTablaHorario(horarioData, nombreHorario) {
-            const dias = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
-            const table = document.createElement('table');
-            const thead = document.createElement('thead');
-            const tbody = document.createElement('tbody');
-            const container = document.getElementById('tables-container');
+// Función para generar la tabla de cada horario
+function generarTablaHorario(horarioData, nombreHorario) {
+    const dias = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
+    const container = document.getElementById('tables-container');
 
-            // Crear encabezado
-            const headerRow = document.createElement('tr');
-            const thHorario = document.createElement('th');
-            thHorario.textContent = 'Franja horaria';
-            headerRow.appendChild(thHorario);
+    // Limpiar contenido previo
+    container.innerHTML = '';
 
-            dias.forEach(dia => {
-                const thDia = document.createElement('th');
-                thDia.textContent = dia;
-                headerRow.appendChild(thDia);
-            });
+    // Crear tabla
+    const table = document.createElement('table');
+    table.style.width = '100%';
+    table.style.borderCollapse = 'collapse';
 
-            thead.appendChild(headerRow);
+    const thead = document.createElement('thead');
+    const tbody = document.createElement('tbody');
 
-            // Crear cuerpo de la tabla
-            const numFranjas = franjasHorarias.length;  // 12 franjas horarias por día
-            for (let i = 0; i < numFranjas; i++) {
-                const row = document.createElement('tr');
-                const horarioCell = document.createElement('td');
-                horarioCell.textContent = franjasHorarias[i];
-                row.appendChild(horarioCell);
+    // Crear encabezado
+    const headerRow = document.createElement('tr');
+    headerRow.style.backgroundColor = '#333';
+    headerRow.style.color = 'white';
 
-                for (let j = 0; j < 7; j++) {  // 7 días a la semana
-                    const dayCell = document.createElement('td');
-                    const index = i + j * numFranjas;
-                    dayCell.textContent = horarioData[index];
+    const thHorario = document.createElement('th');
+    thHorario.style.padding = '10px';
+    thHorario.style.border = '1px solid #ccc';
+    thHorario.textContent = 'Franja horaria';
+    headerRow.appendChild(thHorario);
 
-                    if (horarioData[index] === 1.0) {
-                        dayCell.classList.add('active');
-                    }
-                    row.appendChild(dayCell);
-                }
+    dias.forEach(dia => {
+        const thDia = document.createElement('th');
+        thDia.style.padding = '10px';
+        thDia.style.border = '1px solid #ccc';
+        thDia.textContent = dia;
+        headerRow.appendChild(thDia);
+    });
 
-                tbody.appendChild(row);
+    thead.appendChild(headerRow);
+
+    // Crear cuerpo de la tabla
+    const numFranjas = franjasHorarias.length;  // 12 franjas horarias por día
+    for (let i = 0; i < numFranjas; i++) {
+        const row = document.createElement('tr');
+        const horarioCell = document.createElement('td');
+        horarioCell.style.padding = '10px';
+        horarioCell.style.border = '1px solid #ddd';
+        horarioCell.textContent = franjasHorarias[i];
+        row.appendChild(horarioCell);
+
+        for (let j = 0; j < 7; j++) {  // 7 días a la semana
+            const dayCell = document.createElement('td');
+            dayCell.style.padding = '10px';
+            dayCell.style.border = '1px solid #ddd';
+            const index = i + j * numFranjas;
+            dayCell.textContent = horarioData[index];
+
+            if (horarioData[index] === 1.0) {
+                dayCell.style.backgroundColor = '#c3e6cb';  // Un color verde suave para resaltar el estado activo
             }
 
-            table.appendChild(thead);
-            table.appendChild(tbody);
-
-            // Crear el contenedor para la tabla y agregar la clase "hidden"
-            const tableWrapper = document.createElement('div');
-            tableWrapper.classList.add('hidden');
-            tableWrapper.appendChild(table);
-            tableWrapper.id = `table-${nombreHorario}`;
-            container.appendChild(tableWrapper);
+            row.appendChild(dayCell);
         }
 
-        // Función para mostrar la tabla seleccionada
-        function mostrarTablaHorario(nombreHorario) {
-            // Ocultar todas las tablas
-            const tablas = document.querySelectorAll('.hidden');
-            tablas.forEach(tabla => tabla.style.display = 'none');
+        tbody.appendChild(row);
+    }
 
-            // Mostrar solo la tabla seleccionada
-            const tablaSeleccionada = document.getElementById(`table-${nombreHorario}`);
-            if (tablaSeleccionada) {
-                tablaSeleccionada.style.display = 'block';
-            }
+    table.appendChild(thead);
+    table.appendChild(tbody);
+    container.appendChild(table);
+}
+
+// Función para mostrar la tabla seleccionada
+function mostrarTablaHorario(nombreHorario) {
+    // Ocultar todas las tablas
+    const tablas = document.querySelectorAll('.hidden');
+    tablas.forEach(tabla => tabla.style.display = 'none');
+
+    // Mostrar solo la tabla seleccionada
+    const tablaSeleccionada = document.getElementById(`table-${nombreHorario}`);
+    if (tablaSeleccionada) {
+        tablaSeleccionada.style.display = 'block';
+    }
+}
+
+// Hacer fetch para obtener los datos
+fetch(url)
+    .then(response => response.json())
+    .then(data => {
+        const select = document.getElementById('horario-select');
+        
+        // Rellenar la lista desplegable con las opciones de horarios
+        for (let key in data) {
+            const option = document.createElement('option');
+            option.value = key;
+            option.textContent = key;
+            select.appendChild(option);
+
+            // Generar cada tabla pero mantenerlas ocultas por defecto
+            generarTablaHorario(data[key], key);
         }
 
-        // Hacer fetch para obtener los datos
-        fetch(url)
-            .then(response => response.json())
-            .then(data => {
-                const select = document.getElementById('horario-select');
-                
-                // Rellenar la lista desplegable con las opciones de horarios
-                for (let key in data) {
-                    const option = document.createElement('option');
-                    option.value = key;
-                    option.textContent = key;
-                    select.appendChild(option);
-
-                    // Generar cada tabla pero mantenerlas ocultas por defecto
-                    generarTablaHorario(data[key], key);
-                }
-
-                // Detectar cuando se selecciona un horario
-                select.addEventListener('change', function() {
-                    const horarioSeleccionado = this.value;
-                    mostrarTablaHorario(horarioSeleccionado);
-                });
-            })
-            .catch(error => console.error('Error al obtener los datos:', error));
+        // Detectar cuando se selecciona un horario
+        select.addEventListener('change', function() {
+            const horarioSeleccionado = this.value;
+            mostrarTablaHorario(horarioSeleccionado);
+        });
+    })
+    .catch(error => console.error('Error al obtener los datos:', error));
     </script>
 
 </body>
