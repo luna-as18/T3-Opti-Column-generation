@@ -5,44 +5,54 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Horarios Generados</title>
     <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .dropdown {
+            margin: 20px 0;
+            text-align: center;
+        }
+        select {
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            background-color: #fff;
+            color: #333;
+        }
         table {
             width: 100%;
             border-collapse: collapse;
+            margin: 20px 0;
         }
         th, td {
-            border: 1px solid black;
+            border: 1px solid #ccc;
             padding: 10px;
             text-align: center;
+        }
+        th {
+            background-color: #f2f2f2;
         }
         .active {
             background-color: lightblue;
         }
-        .accordion {
-            background-color: #eee;
-            color: #444;
-            cursor: pointer;
-            padding: 10px;
-            width: 100%;
-            border: none;
-            text-align: left;
-            outline: none;
-            font-size: 15px;
-            transition: 0.4s;
-        }
-        .accordion:after {
-            content: '\002B';  /* Unicode character for "+" */
-            color: #777;
-            font-weight: bold;
-            float: right;
-        }
-        .accordion.active:after {
-            content: "\2212";  /* Unicode character for "-" */
-        }
-        .panel {
-            padding: 0 18px;
-            background-color: white;
+        .hidden {
             display: none;
-            overflow: hidden;
         }
     </style>
 </head>
@@ -50,10 +60,20 @@
 
     <h1>Horarios Generados</h1>
 
-    <div id="tables-container"></div>
+    <div class="container">
+        <!-- Lista desplegable para seleccionar el horario -->
+        <div class="dropdown">
+            <label for="horario-select">Selecciona un horario:</label>
+            <select id="horario-select">
+                <option value="" disabled selected>Elige un horario...</option>
+            </select>
+        </div>
+
+        <div id="tables-container"></div>
+    </div>
 
     <script>
-        // Reemplaza esta URL con el enlace que te proporcione los datos JSON
+        // URL del archivo JSON
         const url = 'https://raw.githubusercontent.com/luna-as18/T3-Opti-Column-generation/main/columnas_finales_87.json';
 
         // Las franjas horarias que corresponden a cada intervalo
@@ -119,35 +139,49 @@
             table.appendChild(thead);
             table.appendChild(tbody);
 
-            // Crear título para cada tabla con acordeón
-            const button = document.createElement('button');
-            button.className = 'accordion';
-            button.textContent = `Horario: ${nombreHorario}`;
-            container.appendChild(button);
+            // Crear el contenedor para la tabla y agregar la clase "hidden"
+            const tableWrapper = document.createElement('div');
+            tableWrapper.classList.add('hidden');
+            tableWrapper.appendChild(table);
+            tableWrapper.id = `table-${nombreHorario}`;
+            container.appendChild(tableWrapper);
+        }
 
-            const panel = document.createElement('div');
-            panel.className = 'panel';
-            panel.appendChild(table);
-            container.appendChild(panel);
+        // Función para mostrar la tabla seleccionada
+        function mostrarTablaHorario(nombreHorario) {
+            // Ocultar todas las tablas
+            const tablas = document.querySelectorAll('.hidden');
+            tablas.forEach(tabla => tabla.style.display = 'none');
 
-            button.addEventListener('click', function() {
-                this.classList.toggle('active');
-                const panel = this.nextElementSibling;
-                if (panel.style.display === "block") {
-                    panel.style.display = "none";
-                } else {
-                    panel.style.display = "block";
-                }
-            });
+            // Mostrar solo la tabla seleccionada
+            const tablaSeleccionada = document.getElementById(`table-${nombreHorario}`);
+            if (tablaSeleccionada) {
+                tablaSeleccionada.style.display = 'block';
+            }
         }
 
         // Hacer fetch para obtener los datos
         fetch(url)
             .then(response => response.json())
             .then(data => {
+                const select = document.getElementById('horario-select');
+                
+                // Rellenar la lista desplegable con las opciones de horarios
                 for (let key in data) {
+                    const option = document.createElement('option');
+                    option.value = key;
+                    option.textContent = key;
+                    select.appendChild(option);
+
+                    // Generar cada tabla pero mantenerlas ocultas por defecto
                     generarTablaHorario(data[key], key);
                 }
+
+                // Detectar cuando se selecciona un horario
+                select.addEventListener('change', function() {
+                    const horarioSeleccionado = this.value;
+                    mostrarTablaHorario(horarioSeleccionado);
+                });
             })
             .catch(error => console.error('Error al obtener los datos:', error));
     </script>
