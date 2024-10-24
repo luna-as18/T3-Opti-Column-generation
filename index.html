@@ -29,6 +29,22 @@
         // Reemplaza esta URL con el enlace que te proporcione los datos JSON
         const url = 'https://raw.githubusercontent.com/luna-as18/T3-Opti-Column-generation/main/columnas_finales_87.json';
 
+        // Las franjas horarias que corresponden a cada intervalo
+        const franjasHorarias = [
+            "00 a.m. - 2 a.m.",
+            "2 a.m. - 4 a.m.",
+            "4 a.m. - 6 a.m.",
+            "6 a.m. - 8 a.m.",
+            "8 a.m. - 10 a.m.",
+            "10 a.m. - 12 m.",
+            "12 m. - 2 p.m.",
+            "2 p.m. - 4 p.m.",
+            "4 p.m. - 6 p.m.",
+            "6 p.m. - 8 p.m.",
+            "8 p.m. - 10 p.m.",
+            "10 p.m. - 00 a.m."
+        ];
+
         // Función para generar la tabla de cada horario
         function generarTablaHorario(horarioData, nombreHorario) {
             const dias = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
@@ -52,11 +68,11 @@
             thead.appendChild(headerRow);
 
             // Crear cuerpo de la tabla
-            const numFranjas = 12;  // Asumiendo que hay 12 franjas horarias por día
+            const numFranjas = franjasHorarias.length;  // 12 franjas horarias por día
             for (let i = 0; i < numFranjas; i++) {
                 const row = document.createElement('tr');
                 const horarioCell = document.createElement('td');
-                horarioCell.textContent = `Franja ${i + 1}`;
+                horarioCell.textContent = franjasHorarias[i];
                 row.appendChild(horarioCell);
 
                 for (let j = 0; j < 7; j++) {  // 7 días a la semana
